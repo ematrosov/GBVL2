@@ -2,23 +2,22 @@ class List {
     _items = []
 
     constructor() {
-        let goods = this.fetchGoods()
-        goods = goods.map(item => {
-            return new GoodItem(item)
-        })
-        this._items = goods
-        this.render()
+        this.fetchGoods()
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                const goods = data.data.map(item => {
+                    return new GoodItem(item)
+                })
+                this._items = goods
+                this.render()
+            })
     }
 
     fetchGoods() {
-        return [
-            { name: 'ELLERY X M O CAPSULE', price: '$ 52.00', img: '/img/product.jpg', description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.' },
-            { name: 'ELLERY X M O CAPSULE', price: '$ 52.00', img: '/img/product.jpg', description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.' },
-            { name: 'ELLERY X M O CAPSULE', price: '$ 52.00', img: '/img/product.jpg', description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.' },
-
-
-
-        ]
+        const url = 'http://localhost:3000/database/data.json'
+        return fetch(url);
     }
 
     render() {
