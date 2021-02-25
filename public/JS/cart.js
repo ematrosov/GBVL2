@@ -1,4 +1,4 @@
-class List {
+class List_Cart {
     _items = []
 
     constructor() {
@@ -28,26 +28,24 @@ class List {
 }
 
 
-class GoodItem {
 
+
+class Cart {
     _img = 0
     _name = ''
     _price = 0
     _description = ''
-
-    constructor({ gender, brand, name, price, img, description }) {
-
+    _quantity = 0
+    _size = ''
+    _brand = ''
+    constructor({ img, name, price, description, quantity, size, brand }) {
         this._img = img
         this._name = name
-
-        this._description = description
         this._price = price
-        this._gender = gender
+        this._description = description
+        this._quantity = quantity
+        this._size = size
         this._brand = brand
-    }
-
-    addToCart() {
-        console.log('Added!', this._name)
     }
 
     render() {
@@ -55,21 +53,26 @@ class GoodItem {
         if (placeToRender) {
             const block = document.createElement('div')
             block.innerHTML = `
-            
-            <img src="${this._img}" />
-            ${this._name} 
-            ${this._description}
-            ${this._price}
-            `
+        
+        <img src="${this._img}" />
+        ${this._name} 
+        ${this._description}
+        ${this._price}
+        ${this._quantity}
+        ${this._size}
+        ${this._brand}
+                `
 
-            const btn = new Button('Добавить в корзину', this.addToCart.bind(this))
+            const btn = new Button('Добавить', this.addToCart.bind(this))
             btn.render(block)
             placeToRender.appendChild(block)
+
+
+
+
         }
     }
 }
 
-new List()
-
-
+new List_Cart()
 
