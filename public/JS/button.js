@@ -1,6 +1,6 @@
-class Button {
-    _text = ''
-    _callback = null
+export default class Button {
+    //  _text = ''
+    //  _callback = null
 
     constructor(text, callback) {
         this._text = text
