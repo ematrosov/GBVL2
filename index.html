@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <main>
+        <h1 @click="onHeaderClick(message)">
+            {{ message }}
+        </h1>
+        <button @click="onButtonClick">Click me</button>
+        <div v-show="doShowAnything">
+            Anything
+        </div>
+        <button @click="doShowAnything = !doShowAnything">
+            Toggle Anything
+
+        </button>
+        <input type="text" placeholder="1" v-model="inputValue" />
+        <div>Введенные данные: {{ inputValue }}</div>
+
+        <div v-for="item in items">
+            <span>{{item.name}}</span>
+            <span>{{item.price}}</span>
+            <span>{{item.img}}</span>
+        </div>
+    </main>
+    <script>
+        new Vue({
+            el: 'main',
+            data: {
+                message: 'Hello vuejs',
+                counter: 0,
+                doShowAnything: false,
+                inputValue: '',
+                items: [{
+                        "name": "ELLERY X M O CAPSULE",
+                        "price": "$ 52.00",
+                        "img": "/img/product.jpg",
+                        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+                    },
+                    {
+                        "name": "ELLERY X M O CAPSULE",
+                        "price": "$ 52.00",
+                        "img": "/img/product.jpg",
+                        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+                    },
+                    {
+                        "name": "ELLERY X M O CAPSULE",
+                        "price": "$ 52.00",
+                        "img": "/img/product.jpg",
+                        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+                    },
+                ]
+
+            },
+            methods: {
+                onHeaderClick(msg) {
+                    alert(msg)
+                },
+                onButtonClick() {
+                    this.counter++
+                    this.message = this.getComputedDate
+                }
+            },
+            computed: {
+                getComputedDate() {
+                    console.log(`getComputedDate CALLED ${this.counter} times`)
+                    return new Date().getSeconds()
+                }
+
+            }
+
+        })
+    </script>
+    <script src="./public/JS/card.js"></script>
+</body>
+
+</html>

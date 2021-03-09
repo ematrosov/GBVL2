@@ -16,7 +16,8 @@ class List {
     }
 
     fetchGoods() {
-        const url = 'http://localhost:3000/database/data.json'
+
+        const url = '/database/data.json'
         return fetch(url);
     }
 
