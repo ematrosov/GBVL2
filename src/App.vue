@@ -10,7 +10,8 @@
 
 <script>
 import Header from './Components/Header.vue';
-import ButtonCounter from './Components/ButtonCounter'
+import ButtonCounter from './Components/ButtonCounter';
+import List from './Components/list.vue'
 
 export default {
   data() {
