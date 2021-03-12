@@ -1,36 +1,65 @@
 class List_Cart {
     _items = []
+    preloading = false
+    _page = 1
+    _CartInstane = null
 
-    constructor() {
+    constructor(CartInstane) {
+        this._CartInstane = CartInstane
+        this.initShowMoreButton()
         this.fetchGoods()
+    }
+
+    initShowMoreButton() {
+        const showMoreBtn = document.querySelector('#showmore')
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click'), () => {
+                this._page++
+                this.fetchGoods()
+            }
+        }
+    }
+
+    fetchGoods() {
+        this.preloading = true
+        const url = `http://localhost:3000/database/item${this._page}.json`
+        return fetch(url)
             .then(res => {
                 return res.json()
             })
             .then(data => {
+                this.preloading = false
                 const goods = data.data.map(item => {
-                    return new GoodItem(item)
+                    return new GoodItem(item, this._CartInstane)
                 })
-                this._items = goods
-                this.render()
+                this._items = [...this._items, ...goods]
+                return this._items
+
             })
+            .then(this.render.bind(this));
     }
 
-    fetchGoods() {
-        const url = 'http://localhost:3000/database/data.json'
-        return fetch(url);
-    }
+
+
 
     render() {
-        this._items.forEach(Good => {
-            Good.render()
-        })
+        const placeToRender = document.querySelector('.catalogJS')
+        if (placeToRender) {
+            placeToRender.innerHTML = ''
+            this._items.forEach(Good => {
+                Good.render(placeToRender)
+            })
+        }
     }
 }
 
+class GoodItem {
 
+}
 
 
 class Cart {
+    _items = [/* CartItem */]
     _img = 0
     _name = ''
     _price = 0
@@ -48,31 +77,55 @@ class Cart {
         this._brand = brand
     }
 
-    render() {
-        const placeToRender = document.querySelector('.catalogJS')
-        if (placeToRender) {
-            const block = document.createElement('div')
-            block.innerHTML = `
-        
-        <img src="${this._img}" />
-        ${this._name} 
-        ${this._description}
-        ${this._price}
-        ${this._quantity}
-        ${this._size}
-        ${this._brand}
-                `
+    add(GoodItemInstance) {
+        const FoundItem = this._items.find((CartItem) => {
+            return CartItem._name === GoodItemInstance._name
+        })
 
-            const btn = new Button('Добавить', this.addToCart.bind(this))
-            btn.render(block)
-            placeToRender.appendChild(block)
-
-
-
+        if (FoundItem) {
+            FoundItem.counter++
+        } else {
+            this._items.push(new CartItem({
+                name: GoodItemInstance._name,
+                price: GoodItemInstance._price,
+            }))
 
         }
+        this.render()
+    }
+
+    render(placeToRender) {
+        const placeToRender = document.querySelector('.catalogJS')
+        if (placeToRender) {
+            placeToRender.innerHTML = ''
+        }
+        this._items.forEach(CartItemInstance => {
+            CartItemInstance.render(placeToRender)
+        })
     }
 }
 
-new List_Cart()
+
+
+class CartItem {
+    _name = ''
+    _price = 0
+    counter = 1
+
+    constructor({ name, price }) {
+        this._name = name
+        this._price = price
+    }
+
+    render(placeToRender) {
+        const block = document.createElement('div')
+        block.innerHTML = `Товар: ${this._name} : ${this._price} x ${this.counter}`
+        placeToRender.appendChild(block)
+    }
+}
+
+
+const CartInstane = new Cart()
+new List(null)
+
 
