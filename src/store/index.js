@@ -10,8 +10,10 @@ export default new Vuex.Store({
     },
     mutations: {
         setData(state, payload) {
-            state.data = payload.newData;
-            state.itemsOnPage = Object.keys(payload.newData);
+            state.data = {
+                ...payload.newData, ...payload.newData
+            };
+            state.itemsOnPage.push(...Object.keys(payload.newData));
         }
     },
     getters: {
@@ -24,13 +26,30 @@ export default new Vuex.Store({
     },
     actions: {
         requesData({ commit }, page) {
-            fetch(`/database/items${page}.json`)
+            fetch(`/itemslist/${page}`, {
+                method: 'GET',
+            })
                 .then(res => {
                     return res.json();
                 })
             then(res => {
                 commit('setData', { newData: res });
             })
+        },
+        addItem({ }, data) {
+            fetch('/itemslist', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Contebt-TYPE': 'application/json'
+                }
+            })
+            then(res => {
+                return res.json();
+            })
+                .then(res => {
+                    console.log(res)
+                })
         }
     },
 });
