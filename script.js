@@ -9,7 +9,8 @@ const server = http.createServer((req, res) => {
         const ext = req.url.split('.')[1]
         const isSvg = ext === 'svg';
         if (isSvg) {
-            res.setHeader('Content-Type', 'image/svg+xml');
+            res.setHeader('Content-Type
+            ', 'image / svg + xml');
         }
         body = fs.readFileSync(`./public${req.url}`)
     } catch (err) {
