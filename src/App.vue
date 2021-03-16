@@ -1,17 +1,15 @@
 <template>
   <div>
     <Header :message="msg" />
-    <button @click="changeMsg">Click</button>
-
-    <ButtonCounter @clicked="onButtenCounterClick" />
-    {{ counter }}
+    <List />
+    <AddForm />
   </div>
 </template>
 
 <script>
 import Header from './Components/Header.vue';
-import ButtonCounter from './Components/ButtonCounter';
-import List from './Components/list.vue'
+import List from './Components/list.vue';
+import AddForm from './Components/AddForm.vue'
 
 export default {
   data() {
@@ -21,7 +19,8 @@ export default {
   },
   components: {
     Header,
-    ButtonCounter,
+    List,
+    AddForm,
   },
   methods: {
       changeMsg () {

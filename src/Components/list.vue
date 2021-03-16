@@ -1,37 +1,41 @@
 <template>
   <div>
-    <CartItem v-for="id in productsArray" :id="id" :key="id" />
+    <CartItem v-for="id in getItemsOnPage" :id="id" :key="id" />
+    <button @clicked="loadMoreData">Загрузить еще</button>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from "vuex";
-import CartItem from './Cartitem.vue'
+import { mapMutations, mapActions } from "vuex";
+import CartItem from "./Cartitem.vue";
+import Button from "./Button";
+import Button from "./Button.vue";
+import Button from "./Button.vue";
 export default {
-    components: {
-        CartItem,
-    },
+  components: {
+    CartItem,
+    Button,
+    Button,
+    Button,
+  },
+  data() {
+    return {
+      page: 0,
+    };
+  },
   methods: {
-    ...mapMutations(["setData"]),
+    ...mapActions(["requestData"]),
+    loadMoreData() {
+      this.page++;
+      this.requestData(this.page);
+    },
   },
   computed: {
-      ...mapGetters([
-          'getData',
-          'getFullPrice'
-      ]),
+    ...mapGetters(["getItemsOnPage", "getFullPrice"]),
   },
-    myState() {
-      return this.$store.getters.getData;
-    },
-  },
+
   created() {
-    this.setData({
-      newData: {
-        1: { id: 1, name: "Shirt", price: 150, img: "/img/gb.png" },
-        2: { id: 2, name: "Socks", price: 250, img: "/img/gb.png" },
-        3: { id: 3, name: "Jacket", price: 750, img: "/img/gb.png" },
-      },
-    });
+    this.loadMoreData();
   },
 };
 </script>
